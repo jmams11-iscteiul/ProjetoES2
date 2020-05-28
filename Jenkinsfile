@@ -4,7 +4,7 @@ node {
    echo 'Building Hello World Docker Image'
     
     stage('Git Checkout') {
-        git 'https://github.com/jmams11-iscteiul/-projeto_es2_grupo11'
+        git 'https://github.com/jmams11-iscteiul/ProjetoES2'
     }
 
     stage('Build jar file'){
