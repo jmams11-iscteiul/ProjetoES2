@@ -1,0 +1,6 @@
+wp-content/*
+.settings/*
+.vscode/*
+target/*
+target/classes/HelloWorld/MathCalc.class
+target/test-classes/HelloWorld/MathCalcTest.class
