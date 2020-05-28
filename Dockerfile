@@ -1,4 +1,4 @@
-FROM openjdk:6
+FROM openjdk
 COPY . /usr/src/myapp
 WORKDIR /usr/src/myapp
 # CMD ["echo", "Hello from Dockerfile"]
