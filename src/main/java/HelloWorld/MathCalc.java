@@ -64,10 +64,12 @@ public class MathCalc {
     }
     
 	public static void main(String[] args) {
+        System.out.println("-------------");
         System.out.println("Hello World, I'm a robot *beep boop*");
         System.out.println("2 + 2 = " + sum(2, 2));
         System.out.println("5 - 3 = " + subtract(5, 3));
         System.out.println("4 * 6 = " + multiply(4, 6));
         System.out.println("15 / 5 = " + divide(15, 5));
+        System.out.println("-------------");
     }
 }
