@@ -11,6 +11,10 @@ node {
         powershell "mvn package"
     }
 
+    stage('Removing previous image'){
+        powershell "docker rmi ${imagename}"
+    }
+
     stage('Build Docker Image'){
         powershell "docker build -t  ${imagename} ."
     }
