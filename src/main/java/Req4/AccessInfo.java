@@ -43,7 +43,7 @@ public class AccessInfo {
 						String dateAsText = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(commit.getCommitTime() * 1000L));
 						String fileName = getFileName(commit);
 						String link = "http://visualdataweb.de/webvowl/"+
-						"#iri=https://github.com/vbastoiscte/ESII1920/raw/master" + repository.getBranch() + fileName;
+						"#iri=https://github.com/vbastoiscte/ESII1920/raw/" + repository.getBranch()+"/" + fileName;
 						//"raw/master/covid19spreading.rdf" 
 
 
