@@ -88,7 +88,6 @@ public class Discovery {
     public List<PDFData> getAllPDFMetadata(String[] pathnames) throws IOException {
         List<PDFData> data = new ArrayList<PDFData>();
         for (int i = 0; i < pathnames.length; i++) {
-            String s = pdfRepository + pathnames[i];
             if (pathnames[i].endsWith(".pdf") && !loadedInHTML(pathnames[i])) {
                 try {
                     data.add(PDFParser.getPDFMetadata(pdfRepository + pathnames[i]));

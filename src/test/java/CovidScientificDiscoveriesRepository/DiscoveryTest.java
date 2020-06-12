@@ -3,7 +3,6 @@ package CovidScientificDiscoveriesRepository;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,7 +41,7 @@ public class DiscoveryTest {
             e.printStackTrace();
         } finally {
             try {
-                src.close();;
+                src.close();
                 dest.close();
             } catch (IOException e) {
                 e.printStackTrace();
