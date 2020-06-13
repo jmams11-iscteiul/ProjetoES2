@@ -5,6 +5,13 @@ import java.util.ArrayList;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 
+/**
+ * @author ricar
+ *class geral
+ *unica que deve ser corrida
+ *invoca a AccessInfo para obter  a informacao das tags e ficheiros
+ *invoca a WriteTable para criar a tabela em html
+ */
 public class Main {
 	public static void main(String[] args) {
 		try {

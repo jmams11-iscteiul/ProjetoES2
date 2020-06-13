@@ -28,58 +28,112 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 
 public class AccessInfo {
 
+	/**
+	 * @author ricardo
+	 * Class que acede a informacao do repositorio
+	 */
+	
+	/**
+	 * link do repositorio
+	 */
 	private static final String REMOTE_URL = "https://github.com/vbasto-iscte/ESII1920.git";
+	/**
+	 * link exemplo para apresentar uma tabela
+	 */
 	private static final String URL_GRAPH =	"http://visualdataweb.de/webvowl/#iri=https://github.com/vbasto-iscte/ESII1920/raw/master/covid19spreading.rdf";
 	private static Repository repository;
 
+	/**
+	 * @return uma lista com a informacao de todos os ficheiros
+	 * @throws InvalidRemoteException quando tenta aceder ao repositorio
+	 * @throws TransportException
+	 * @throws GitAPIException quando tenta aceder ao git
+	 * @throws IOException
+	 * clona o repositorio git
+	 * faz um hash map com todas as tags do repositorio
+	 * para cada tag procura o ficheiro .rdf associado e a usa informacao
+	 */
 	public static ArrayList<FileInfo> acederInfo() throws InvalidRemoteException, TransportException, GitAPIException, IOException {
 		ArrayList<FileInfo> filesInfo= new ArrayList<>();
 		iniciarRepositorio();
-			Map<String, Ref> tags = repository.getTags();
-			for (Map.Entry<String,Ref> entry : tags.entrySet()) {
-				RevWalk rw = getCommits(entry.getKey(), repository);
-				RevCommit rc = rw.parseCommit(entry.getValue().getObjectId());
-					RevTree rt = rc.getTree();
-					TreeWalk tw = createTreeWalk(rt);
-					while(tw.next()){
-						if(tw.isSubtree())
-							tw.enterSubtree();
-						else
-							filesInfo.add(createFile(rc, entry.getKey()));
-					}
+		Map<String, Ref> tags = repository.getTags();
+		for (Map.Entry<String,Ref> entry : tags.entrySet()) {
+			RevWalk rw = getCommits(entry.getKey(), repository);
+			RevCommit rc = rw.parseCommit(entry.getValue().getObjectId());
+			RevTree rt = rc.getTree();
+			TreeWalk tw = createTreeWalk(rt);
+			while(tw.next()){
+				if(tw.isSubtree())
+					tw.enterSubtree();
+				else
+					filesInfo.add(createFile(rc, entry.getKey()));
 			}
-			return filesInfo;
 		}
+		return filesInfo;
+	}
 
-		private static TreeWalk createTreeWalk(RevTree rt)
-				throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException {
-			TreeWalk tw = new TreeWalk(repository);
-			tw.setRecursive(false);
-			tw.addTree(rt);
-			tw.setFilter(PathFilter.create("covid19spreading.rdf"));
-			return tw;
+	/**
+	 * @param rt RevTree tree com os ficheiros do comite
+	 * @return TreeWalk criado para procurar o nome do ficheiro
+	 * @throws MissingObjectException
+	 * @throws Inco rrectObjectTypeException
+	 * @throws CorruptObjectException
+	 * @throws IOException
+	 * Cria uma TreeWalk
+	 * a TreeWalk nao entra nas subtrees automaticamente
+	 * adiciona a RevTree (dos parametros)
+	 * procura ficheiros com o nome "covid19spreading.rdf"
+	 */
+	private static TreeWalk createTreeWalk(RevTree rt)
+			throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException {
+		TreeWalk tw = new TreeWalk(repository);
+		tw.setRecursive(false);
+		tw.addTree(rt);
+		tw.setFilter(PathFilter.create("covid19spreading.rdf"));
+		return tw;
 
-		}
-	
-
-private static FileInfo createFile(RevCommit rc, String  key)
-		throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException {
-	FileInfo fileInfo = new FileInfo();
-	fileInfo.setDate(getFileDate(rc)); // data
-	fileInfo.setFileName(getFileName(rc)); // nome do ficheiro
-	fileInfo.setMessage(rc.getShortMessage());
-	fileInfo.setName(key); // taName
-	fileInfo.setLink(URL_GRAPH.replace("master", key)); //link
-	return fileInfo;
-
-}
-
+	}
 
 
+	/**
+	 * @param rc informacao sobre o commit
+	 * @param key nome da tag
+	 * @return um Objecto FileInfo com toda a informacao a ssociada a uma tag
+	 * @throws MissingObjectException
+	 * @throws IncorrectObjectTypeException
+	 * @throws CorruptObjectException
+	 * @throws IOException
+	 * cria um objecto FileInfo
+	 * adiciona a data da tag, nome do ficheiro, mensagem da tag, tag e link para visualizar grafico
+	 */
+	private static FileInfo createFile(RevCommit rc, String  key)
+			throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException {
+		FileInfo fileInfo = new FileInfo();
+		fileInfo.setDate(getFileDate(rc)); // data
+		fileInfo.setFileName(getFileName(rc)); // nome do ficheiro
+		fileInfo.setMessage(rc.getShortMessage());
+		fileInfo.setName(key); // taName
+		fileInfo.setLink(URL_GRAPH.replace("master", key)); //link
+		return fileInfo;
 
-	private static RevWalk getCommits(String tag,
-			Repository repository)
-			throws MissingObjectException, IncorrectObjectTypeException, IOException {
+	}
+
+
+
+
+	/**
+	 * @param tag nome da tag
+	 * @param repository repositorio local
+	 * @return rev walk associado a tag e ao repositorio
+	 * @throws MissingObjectException
+	 * @throws IncorrectObjectTypeException
+	 * @throws IOException
+	 * cria um RevWalk associado ao repositorio
+	 * encontra o commit
+	 * 
+	 */
+	private static RevWalk getCommits(String tag, Repository repository)
+					throws MissingObjectException, IncorrectObjectTypeException, IOException {
 		try( RevWalk revWalk = new RevWalk( repository ) ) {
 			ObjectId commitId = repository.resolve(tag);
 			revWalk.markStart( revWalk.parseCommit(commitId ) );
@@ -89,29 +143,56 @@ private static FileInfo createFile(RevCommit rc, String  key)
 
 
 
-private static String getFileName(RevCommit commit) throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException{
-	//nome do ficheiro
-	String name = "";
-	ObjectId treeId = commit.getTree();
-	TreeWalk treeWalk = new TreeWalk(repository);
-	treeWalk.reset(treeId);
-	while (treeWalk.next()) {
-		String path = treeWalk.getPathString();
-		if(path.contains(".rdf"))
-			name = path;
+	/**
+	 * @param commit
+	 * @return nome do ficheiro associado a um commit
+	 * @throws MissingObjectException
+	 * @throws IncorrectObjectTypeException
+	 * @throws CorruptObjectException
+	 * @throws IOException
+	 * Procura a arvore do commit
+	 * procura um ficheiro que acabe em "rdf"
+	 * devolve nome do ficheiro
+	 */
+	private static String getFileName(RevCommit commit) throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException{
+		String name = "";
+		ObjectId treeId = commit.getTree();
+		TreeWalk treeWalk = new TreeWalk(repository);
+		treeWalk.reset(treeId);
+		while (treeWalk.next()) {
+			String path = treeWalk.getPathString();
+			if(path.contains(".rdf"))
+				name = path;
+		}
+		return name;
 	}
-	return name;
-}
 
 
 
-private static String getFileDate(RevCommit commit){
-	String dateAsText = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-						.format(new Date(commit.getCommitTime() * 1000L));
-	return dateAsText;
+	/**
+	 * @param commit
+	 * @return data do commit no formato "yyyy-MM-dd HH:mm:ss"
+	 * Obtem o timestamp do  commit
+	 * formata a data a partir do timestamp
+	 */
+	private static String getFileDate(RevCommit commit){
+		String dateAsText = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+				.format(new Date(commit.getCommitTime() * 1000L));
+		return dateAsText;
+	}
 
-}
-
+	/**
+	 * @throws InvalidRemoteException
+	 * @throws TransportException
+	 * @throws GitAPIException
+	 * @throws IOException
+	 * repository e a pasta onde esta o git local
+	 *faz um clone do git se ainda nao existir
+	 *se existir, abre esse clone
+	 *faz pull
+	 *obtem o repositorio
+	 * 
+	 */
 	private static void iniciarRepositorio() throws InvalidRemoteException, TransportException, GitAPIException, IOException{
 		//clone do repositorio
 		Git git;
@@ -125,7 +206,6 @@ private static String getFileDate(RevCommit commit){
 		PullCommand pullCmd = git.pull();
 		pullCmd.call();
 		// abrir repositorio local com o git
-		FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
 		repository = git.getRepository(); 
 	}
 
