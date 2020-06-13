@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-//http://github.com/vbasto-iscte/ESII1920
 import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
@@ -20,60 +19,53 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
-import org.eclipse.jgit.transport.TransportHttp.AcceptEncoding;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 
 
 public class AccessInfo {
 
 	private static final String REMOTE_URL = "https://github.com/vbasto-iscte/ESII1920.git";
+	private static final String URL_GRAPH =	"http://visualdataweb.de/webvowl/#iri=https://github.com/vbasto-iscte/ESII1920/raw/master/covid19spreading.rdf";
 	private static Repository repository;
-	public static void main(String[] args) throws MissingObjectException, IncorrectObjectTypeException, IOException {
-			AccessInfo accessinfo= new AccessInfo();
-			try {
-				ArrayList<Tag> tag = accessinfo.acederInfo();
-			} catch (InvalidRemoteException e) {
-				e.printStackTrace();
-			} catch (TransportException e) {
-				e.printStackTrace();
-			} catch (GitAPIException e) {
-				e.printStackTrace();
-			}
-	}
 
-	public static ArrayList<Tag> acederInfo() throws InvalidRemoteException, TransportException, GitAPIException, IOException {
-		ArrayList<Tag> filesInfo= new ArrayList<>();
+	public static ArrayList<FileInfo> acederInfo() throws InvalidRemoteException, TransportException, GitAPIException, IOException {
+		ArrayList<FileInfo> filesInfo= new ArrayList<>();
 		iniciarRepositorio();
-			// get tags
 			Map<String, Ref> tags = repository.getTags();
 			for (Map.Entry<String,Ref> entry : tags.entrySet()) {
 				RevWalk rw = getCommits(entry.getKey(), repository);
-				for (RevCommit commit : rw) {
-				Tag fileInfo = new Tag();
-				// ---------------------file timestamp
-		// ---------------------file name
-		// ---------------------file tag
-		// ---------------------tag description
-		// spread visualisaation link
-				fileInfo.setDate(getFileDate(commit));
-				fileInfo.setFileName(getFileName(commit));
-				fileInfo.setMessage(commit.getShortMessage());
-				fileInfo.setName(entry.getKey());
-				fileInfo.setLink("http://www.google.pt");
-				String link = "http://visualdataweb.de/webvowl/" + "#iri=https://github.com/vbastoiscte/ESII1920/raw/"
-						+ repository.getBranch() + "/" + //fileName;
-				// "raw/master/covid19spreading.rdf"
-				filesInfo.add(fileInfo);
-				break;
+				RevCommit rc = rw.parseCommit(entry.getValue().getObjectId());
+					RevTree rt = rc.getTree();
+					TreeWalk tw = new TreeWalk(repository);
+					tw.setRecursive(false);
+					tw.addTree(rt);
+					tw.setFilter(PathFilter.create("covid19spreading.rdf"));
+					while(tw.next()){
+						if(tw.isSubtree())
+							tw.enterSubtree();
+						else
+							filesInfo.add(createFile(rc, entry.getKey()));
+					}
 			}
+			return filesInfo;
 		}
-		return filesInfo;
-	}
+	
 
+private static FileInfo createFile(RevCommit rc, String  key)
+		throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException {
+	FileInfo fileInfo = new FileInfo();
+	fileInfo.setDate(getFileDate(rc)); // data
+	fileInfo.setFileName(getFileName(rc));
+	fileInfo.setMessage(rc.getShortMessage());
+	fileInfo.setName(key); // taName
+	fileInfo.setLink(URL_GRAPH.replace("master", key)); //link
+	return fileInfo;
 
-
+}
 
 
 
@@ -118,7 +110,7 @@ private static String getFileDate(RevCommit commit){
 
 
 	private static void iniciarRepositorio() throws InvalidRemoteException, TransportException, GitAPIException, IOException{
-		//clone do repositório
+		//clone do repositï¿½rio
 		Git git;
 		File file = new File("repository");
 		if(!file.exists()){
@@ -126,10 +118,10 @@ private static String getFileDate(RevCommit commit){
 		}
 		else
 			git = Git.open(file);
-		// fazer update (pull) do repositório
+		// fazer update (pull) do repositï¿½rio
 		PullCommand pullCmd = git.pull();
 		pullCmd.call();
-		// abrir repositório local com o git
+		// abrir repositï¿½rio local com o git
 		FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
 		repository = git.getRepository(); 
 	}

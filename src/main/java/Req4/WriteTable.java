@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class WriteTable {
 
     public static void main(String[] args) {
-        ArrayList<Tag> tags = new ArrayList<>();
-        Tag t1 = new Tag("Segunda", "Ficheiro", "Tag1", "O ramalho é gay", "wwww.google.com");
-        Tag t2 = new Tag("Terça", "Ficheiro2", "Tag2", "O vasco é gay", "wwww.facebook.com");
+        ArrayList<FileInfo> tags = new ArrayList<>();
+        FileInfo t1 = new FileInfo("Segunda", "Ficheiro", "Tag1", "Teste", "wwww.google.com");
+        FileInfo t2 = new FileInfo("Terca", "Ficheiro2", "Tag2", "Teste1", "wwww.facebook.com");
         tags.add(t1);
         tags.add(t2);
         WriteTable wt= new WriteTable();
@@ -22,28 +22,23 @@ public class WriteTable {
     }
 
 
-    public static void draw(ArrayList<Tag> tags) throws IOException {
+    public static void draw(ArrayList<FileInfo> tags) throws IOException {
         File page = new File("tabela.html");
         if(page.exists()){
             page.delete();
             page.createNewFile();
         }
         FileWriter myWriter;
-        try {
             myWriter = new FileWriter("tabela.html");
-            myWriter.write("<!DOCTYPE html>    <html>   <body> <h2>Basic HTML Table</h2><table style=\"widtd:600%\">");
+            myWriter.write("<!DOCTYPE html> <html> <head> <style> #files {font-family: \"Trebuchet MS\", Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100%;} #files td, #files th {border: 1px solid #ddd; padding: 8px;} #files tr:nth-child(even){background-color: #f2f2f2;}#files tr:hover {background-color: #ddd;}#files th {  padding-top: 12px;  padding-bottom: 12px;  text-align: left;  background-color: #4CAF50;  color: white;}</style></head><body><table id=\"files\">  ");
             String str="<tr><td>Data</td><td>Nome do Ficheiro</td> <td>Tag</td><td>Mensagem</td><td>Link</td></tr>";
             myWriter.write(str);
-            for(Tag tag :tags){
+            for(FileInfo tag :tags){
                 str="  <tr>  \n  <td>"+ tag.getDate() +"</td> \n   <td>"+tag.getFileName() +"</td> \n    <td>"+ tag.getName()+"</td> \n    <td>"+tag.getMessage() +"</td> \n    <td><a href=\""+tag.getLink()+"\">"+ tag.getLink()+"</a></td> \n   </tr> \n ";
                 myWriter.write(str);
             }
             myWriter.write("</table>");
             myWriter.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 
 }
