@@ -112,7 +112,7 @@ public class AccessInfo {
 		fileInfo.setDate(getFileDate(rc)); // data
 		fileInfo.setFileName(getFileName(rc)); // nome do ficheiro
 		fileInfo.setMessage(rc.getShortMessage());
-		fileInfo.setName(key); // taName
+		fileInfo.setTag(key); // taName
 		fileInfo.setLink(URL_GRAPH.replace("master", key)); //link
 		return fileInfo;
 

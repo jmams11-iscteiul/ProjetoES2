@@ -10,7 +10,7 @@ public class FileInfo {
 	 */
 	private String date;
 	private String fileName;
-	private String name;
+	private String tag;
 	private String message;
 	private String link;
 
@@ -28,7 +28,7 @@ public class FileInfo {
 	FileInfo(String date, String fileName, String name, String message, String link){
 		this.date = date;
 		this.fileName = fileName;
-		this.name = name;
+		this.tag = name;
 		this.message = message;
 		this.link = link;
 	}
@@ -64,15 +64,15 @@ public class FileInfo {
 	/**
 	 * @return nome da tag
 	 */
-	public String getName() {
-		return this.name;
+	public String getTag() {
+		return this.tag;
 	}
 
 	/**
 	 * @param name nome da tag
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setTag(String name) {
+		this.tag = name;
 	}
 
 	/**
