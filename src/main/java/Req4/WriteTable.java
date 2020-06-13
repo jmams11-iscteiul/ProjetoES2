@@ -9,16 +9,18 @@ public class WriteTable {
 
     public static void main(String[] args) {
         ArrayList<Tag> tags = new ArrayList<>();
-        Tag t1 = new Tag("Segunda", "Ficheiro", "Tag1", "O ramalho Ã© gay", "wwww.google.com");
-        Tag t2 = new Tag("TerÃ§a", "Ficheiro2", "Tag2", "O vasco Ã© gay", "wwww.facebook.com");
+        Tag t1 = new Tag("Segunda", "Ficheiro", "Tag1", "O ramalho é gay", "wwww.google.com");
+        Tag t2 = new Tag("Terça", "Ficheiro2", "Tag2", "O vasco é gay", "wwww.facebook.com");
         tags.add(t1);
         tags.add(t2);
+        WriteTable wt= new WriteTable();
         try {
-            draw(tags);
+            wt.draw(tags);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     public static void draw(ArrayList<Tag> tags) throws IOException {
         File page = new File("tabela.html");
@@ -27,8 +29,6 @@ public class WriteTable {
             page.createNewFile();
         }
         FileWriter myWriter;
-
-
         try {
             myWriter = new FileWriter("tabela.html");
             myWriter.write("<!DOCTYPE html>    <html>   <body> <h2>Basic HTML Table</h2><table style=\"widtd:600%\">");

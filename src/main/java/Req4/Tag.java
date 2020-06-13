@@ -7,6 +7,9 @@ public class Tag {
     private String message;
     private String link;
 
+    Tag(){
+        
+    }
     Tag(String date, String fileName, String name, String message, String link){
         this.date = date;
         this.fileName = fileName;
