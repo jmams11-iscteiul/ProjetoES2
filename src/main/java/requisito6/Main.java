@@ -7,7 +7,7 @@ import requisito6.FileCompare;
  */
 public class Main
 {	/**
-	 *  This is the main method.
+	 *  This is the main method, to run this application the evodiffconfig.ini must be in the same directory.
 	 * @param args None
 	 */
 	public static void main( String args[] )
