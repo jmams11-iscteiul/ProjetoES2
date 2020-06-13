@@ -1,31 +1,44 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
-import requisito6.*;
+import requisito6.FileCompare;
 
-class FileCompareTest {
-
+public class FileCompareTest {
+	
 	static FileCompare fc;
 
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
+    @Before
+    public void setUp() {
 		fc = new FileCompare();
 		fc.readConfig();
-		fc.createTempRepo();
+		try {
+			fc.createTempRepo();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (GitAPIException e) {
+			e.printStackTrace();
+		}
 	}
 
+
+
 	@Test
-	void testcreateTempRepo() {
+	public void testcreateTempRepo() {
 		assertNotNull(fc.getRepository());
 	}
 
 	@Test
-	void testgetLastTwoTags() {
+	public void testgetLastTwoTags() {
 		try {
 			assertEquals(2, fc.getLastTwoTags().size());
 			assertNotEquals(fc.getLastTwoTags().get(0), fc.getLastTwoTags().get(1));
@@ -35,7 +48,7 @@ class FileCompareTest {
 	}
 
 	@Test
-	void testfileDiff() {
+	public void testfileDiff() {
 		fc.computeResults();
 		assertNotNull(fc.getRawVersion());
 		assertNotNull(fc.getDiffVersion());
@@ -43,10 +56,10 @@ class FileCompareTest {
 	}
 
 	@Test 
-	void outputString(){
+	public void outputString(){
 		fc.computeResults();
 		assertNotNull(fc.outputString());
 		assertNotEquals("", fc.outputString());
 	}
-}
 
+}

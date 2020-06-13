@@ -1,25 +1,26 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import requisito6.*;
 
-class GenerateHTMLTest {
+public class GenerateHTMLTest {
 	
 	static GenerateHTML gHtml;
 	static FileCompare fileCompare;
 
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
+    @Before
+    public void setUp() {
 		gHtml = new GenerateHTML();
 		fileCompare = new FileCompare();
 	}
 
 	@Test
-	void testGenerateHTML() {
+	public void testGenerateHTML() {
 		assertNotNull(gHtml.printToString(fileCompare.getDiffVersion(),fileCompare.getRawVersion()));
 		assertNotEquals("", gHtml.printToString(fileCompare.getDiffVersion(),fileCompare.getRawVersion()));
 	}
