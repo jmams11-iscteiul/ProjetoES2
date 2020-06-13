@@ -1,9 +1,12 @@
 package CovidScientificDiscoveriesRepository;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,31 +32,33 @@ public class Discovery {
     private String htmlFileName;
 
     /**
-     * Constructs a Discovery program with the specified repository and HTMl file.
+     * Constructs a Discovery program with the specified repository and HTML file.
      * 
      * @param pdfRepository The repository with the PDF files.
      * @param htmlFileName The name of the HTML file.
      * @throws NullPointerException Exception thrown if the specified PDF repository or HTML file don't exist.
      */
-    public Discovery(String pdfRepository, String htmlFileName) throws NullPointerException{
+    public Discovery(String pdfRepository, String htmlFileName) {
         this.pdfRepository = pdfRepository;
         this.htmlFileName = htmlFileName;
-        repositoryExists();
     }
 
 
     /**
-     * Checks if the Discovery PDF repository and HTML file exists, if one of these doesn't exists then a NullPointerException is thrown.
+     * Given an HTML file name checks if it exists, if it doesn't the file is created and initialized with a HTML base structure.
      * 
-     * @throws NullPointerException Exception thrown if HTML file or PDF repository don't exist.
+     * @throws IOException If an I/O error occurred when trying to open the file.
      */
-    private void repositoryExists() {
-        File f = new File(pdfRepository);
-        if(!f.exists())
-            throw new NullPointerException(pdfRepository + " repository");
-        File f1 = new File(htmlFileName);
-        if(!f1.exists())
-            throw new NullPointerException(htmlFileName + " HTML file");
+    public void createHTML() throws IOException {
+        File htmlFile = new File(htmlFileName);
+        if(htmlFile.createNewFile()) {
+
+            String htmlString = "<!doctype html><html lang=\"en\"><head><style>table, th, td {border: 1px solid black;border-collapse: collapse;}th, td {padding: 15px;text-align: left;}th {font-size: 20px;}</style><meta=\"utf-8\"><title>Covid Scientific Discoveries Repository</title></head><body><h2>Covid Scientific Discoveries</h2><table style=\"width:100%\"><tbody><tr><th>Article Title</th><th>Journal Name</th><th>Publication Year</th></tr></tbody></table></body><html>";
+            
+            Document doc = Jsoup.parse(htmlString);
+
+            FileUtils.writeStringToFile(htmlFile, doc.outerHtml(), "UTF-8");
+        }
     }
 
 
@@ -145,12 +150,22 @@ public class Discovery {
     }
 
     
+
     public static void main(String[] args) {
-        String pdfRep = "rep/";
-        String htmlFile = "./table.html";
+        String pdfRep = new String();
+        String htmlFile = new String();
+        try {
+            Properties p = new Properties();
+            p.load(new FileInputStream("ScientificDiscoveries.ini"));
+            pdfRep = p.getProperty("pdf_repository");
+            htmlFile = p.getProperty("html_file");          
+        } catch (Exception e) {
+            System.out.println("Error reading ini file " + e);
+        }
 
         try {
             Discovery d = new Discovery(pdfRep, htmlFile);
+            d.createHTML();
             String[] pathnames = d.getFiles();
             List<PDFData> data = d.getAllPDFMetadata(pathnames);
             d.appendHtmlString(data);
@@ -158,7 +173,6 @@ public class Discovery {
             System.out.println(npe.getMessage() + " doesn't exist!");
         } catch (IOException e) {
             System.out.println(htmlFile + " doesn't exist!");
-            e.printStackTrace();
         } 
     }
 }

@@ -3,12 +3,11 @@ package CovidScientificDiscoveriesRepository;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,30 +23,11 @@ public class DiscoveryTest {
     private File htmlFile;
     private File pdfRep;
     private File nonPdfFile;
-    private File htmlFileStructure = new File("./src/test/java/CovidScientificDiscoveriesRepository/htmlFileStructure.html");
 
     @Before
     public void setUp() {
         htmlFile = new File("./tableTest.html");
 
-        FileChannel src = null;
-        FileChannel dest = null;
-        try {
-            htmlFile.createNewFile();
-            src = new FileInputStream(htmlFileStructure).getChannel();
-            dest = new FileOutputStream(htmlFile).getChannel();
-            dest.transferFrom(src, 0, src.size());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                src.close();
-                dest.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        
         pdfRep = new File("rep");
         nonPdfFile = new File("./rep/pdf.txt");
         discGoodArguments = new Discovery(pdfRep.getName() + "/", htmlFile.getName());
@@ -68,10 +48,29 @@ public class DiscoveryTest {
     }
 
     @Test
-    public void testGetAllPDFMetadataAndAppendHTML() {
+    public void testMethods() {
         String[] existingFiles = { "178-1-53.pdf", nonPdfFile.getName() };
         String[] nonExistingFiles = { "covid.pdf" };
         List<PDFData> result = new ArrayList<PDFData>();
+
+        //Check if html file exists
+        assertFalse(htmlFile.exists());
+
+        try {
+            discGoodArguments.createHTML();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+        assertTrue(htmlFile.exists());
+
+        try {
+            discGoodArguments.createHTML();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+        assertTrue(htmlFile.exists());
 
         //Get files from rep
         String[] filesFromRep = discGoodArguments.getFiles();
