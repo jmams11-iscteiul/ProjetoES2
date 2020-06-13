@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 /**
- * @author ricar
+ * @author ricardo
  *class geral
  *unica que deve ser corrida
  *invoca a AccessInfo para obter  a informacao das tags e ficheiros

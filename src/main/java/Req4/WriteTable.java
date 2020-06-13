@@ -41,12 +41,12 @@ public class WriteTable {
      * cria um FileWriter associado a esse documento html
      */
     private static void createWriter() throws IOException {
-        File page = new File("tabela.html");
+        File page = new File("spreadTable.html");
         if(page.exists()){
             page.delete();
             page.createNewFile();
         }
-        myWriter = new FileWriter("tabela.html");
+        myWriter = new FileWriter("spreadTable.html");
     }
 
 
