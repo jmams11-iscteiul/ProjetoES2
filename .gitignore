@@ -4,3 +4,4 @@ wp-content/*
 target/*
 target/classes/HelloWorld/MathCalc.class
 target/test-classes/HelloWorld/MathCalcTest.class
+/repository/
