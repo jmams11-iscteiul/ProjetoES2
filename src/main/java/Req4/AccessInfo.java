@@ -40,10 +40,7 @@ public class AccessInfo {
 				RevWalk rw = getCommits(entry.getKey(), repository);
 				RevCommit rc = rw.parseCommit(entry.getValue().getObjectId());
 					RevTree rt = rc.getTree();
-					TreeWalk tw = new TreeWalk(repository);
-					tw.setRecursive(false);
-					tw.addTree(rt);
-					tw.setFilter(PathFilter.create("covid19spreading.rdf"));
+					TreeWalk tw = createTreeWalk(rt);
 					while(tw.next()){
 						if(tw.isSubtree())
 							tw.enterSubtree();
@@ -53,13 +50,23 @@ public class AccessInfo {
 			}
 			return filesInfo;
 		}
+
+		private static TreeWalk createTreeWalk(RevTree rt)
+				throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException {
+			TreeWalk tw = new TreeWalk(repository);
+			tw.setRecursive(false);
+			tw.addTree(rt);
+			tw.setFilter(PathFilter.create("covid19spreading.rdf"));
+			return tw;
+
+		}
 	
 
 private static FileInfo createFile(RevCommit rc, String  key)
 		throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException, IOException {
 	FileInfo fileInfo = new FileInfo();
 	fileInfo.setDate(getFileDate(rc)); // data
-	fileInfo.setFileName(getFileName(rc));
+	fileInfo.setFileName(getFileName(rc)); // nome do ficheiro
 	fileInfo.setMessage(rc.getShortMessage());
 	fileInfo.setName(key); // taName
 	fileInfo.setLink(URL_GRAPH.replace("master", key)); //link
@@ -105,12 +112,8 @@ private static String getFileDate(RevCommit commit){
 
 }
 
-
-
-
-
 	private static void iniciarRepositorio() throws InvalidRemoteException, TransportException, GitAPIException, IOException{
-		//clone do reposit�rio
+		//clone do repositorio
 		Git git;
 		File file = new File("repository");
 		if(!file.exists()){
@@ -118,10 +121,10 @@ private static String getFileDate(RevCommit commit){
 		}
 		else
 			git = Git.open(file);
-		// fazer update (pull) do reposit�rio
+		// fazer update (pull) do reposito	rio
 		PullCommand pullCmd = git.pull();
 		pullCmd.call();
-		// abrir reposit�rio local com o git
+		// abrir repositorio local com o git
 		FileRepositoryBuilder repositoryBuilder = new FileRepositoryBuilder();
 		repository = git.getRepository(); 
 	}
