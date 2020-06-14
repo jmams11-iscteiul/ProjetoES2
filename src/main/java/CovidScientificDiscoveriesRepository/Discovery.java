@@ -160,7 +160,7 @@ public class Discovery {
             pdfRep = p.getProperty("pdf_repository");
             htmlFile = p.getProperty("html_file");          
         } catch (Exception e) {
-            System.out.println("Error reading ini file " + e);
+            System.out.println("Error reading ScientificDiscoveries.ini file " + e);
         }
 
         try {
