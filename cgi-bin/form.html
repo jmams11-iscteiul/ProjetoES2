@@ -1,0 +1,37 @@
+<form method="POST" action="/cgi-bin/cgi-java2.sh">
+<h3>Ver dados <select id="rangeQuery" name="rangeQuery">
+    <option value="regiao">por regiao</option>
+    <option value="pais">do pais inteiro</option>
+  </select> :</h3>
+  <input type="checkbox" id="infCB" name="infCB" value="inf1">
+  <label for="infCB"> Infeccoes</label>
+  <select id="tipoOperadorInf" name="tipoOperadorInf">
+    <option value="maior">&gt;</option>
+    <option value="menor">&lt;</option>
+    <option value="igual">=</option>
+    <option value="diferente">!=</option>
+    <option value="menorouigual">&lt;=</option>
+    <option value="maiorouigual">&gt;=</option>
+  </select> <input type="number" id="QTDInf" name="QTDInf" min="0"><br>
+  <input type="checkbox" id="intCB" name="intCB" value="int1">
+  <label for="int1CB"> Internamentos</label>
+  <select id="tipoOperadorInt" name="tipoOperadorInt">
+    <option value="maior">&gt;</option>
+    <option value="menor">&lt;</option>
+    <option value="igual">=</option>
+    <option value="diferente">!=</option>
+    <option value="menorouigual">&lt;=</option>
+    <option value="maiorouigual">&gt;=</option>
+  </select> <input type="number" id="QTDInt" name="QTDInt" min="0"><br>
+  <input type="checkbox" id="testesCB" name="testesCB" value="testes1">
+  <label for="testesCB"> Testes</label>
+  <select id="tipoOperadorTestes" name="tipoOperadorTestes">
+    <option value="maior">&gt;</option>
+    <option value="menor">&lt;</option>
+    <option value="igual">=</option>
+    <option value="diferente">!=</option>
+    <option value="menorouigual">&lt;=</option>
+    <option value="maiorouigual">&gt;=</option>
+  </select> <input type="number" id="QTDTestes" name="QTDTestes" min="0"><br><br>
+<input type="submit" value="Submeter"> <input type="reset" value="Repor">
+</form>
