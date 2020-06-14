@@ -1,5 +1,7 @@
 package Req4;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -17,6 +19,12 @@ public class Main {
 		try {
 			ArrayList<FileInfo> infos = AccessInfo.acederInfo();
 			WriteTable.draw(infos);
+			try (BufferedReader br = new BufferedReader(new FileReader("spreadTable.html"))) {
+	            String line;
+	            while ((line = br.readLine()) != null) {
+	                System.out.println(line);
+	            }
+	        }
 		} catch (GitAPIException | IOException e) {
 			e.printStackTrace();
 		}
