@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class OutputRecorder {
-	private static final String filename = "log.html";
+	private static final String filename = "/var/www/html/requisito2.html";
 	private static FileWriter myWriter;
 	public OutputRecorder() {
 		try {
