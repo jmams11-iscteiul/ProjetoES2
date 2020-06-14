@@ -1,4 +1,4 @@
-package tests;
+package testesrequisito6;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;

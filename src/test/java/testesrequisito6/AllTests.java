@@ -1,4 +1,4 @@
-package tests;
+package testesrequisito6;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
