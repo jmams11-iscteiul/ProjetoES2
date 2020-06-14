@@ -81,7 +81,8 @@ public class Discovery {
         org.jsoup.nodes.Element table = doc.select("table").first();
 
         for (int i = 0; i < data.size(); i++) {
-            table.append("<tr>\n" + "<td><a href=\"" + data.get(i).getLocation() + "\">" + data.get(i).getArticleTitle()
+            String location = data.get(i).getLocation().replaceFirst("/var/www/html", "");
+            table.append("<tr>\n" + "<td><a href=\"" + location + "\">" + data.get(i).getArticleTitle()
                     + "</a></td>\n" + "<td>" + data.get(i).getJournalName() + "</td>\n" + "<td>"
                     + data.get(i).getPublicationYear() + "</td>\n" + "</tr>\n");
         }
@@ -124,7 +125,7 @@ public class Discovery {
         Document doc = getDocument(htmlFileName);
         org.jsoup.nodes.Element table = doc.select("table").first();
         String content = table.outerHtml();
-        if (content.contains(pdfRepository + pathname))
+        if (content.contains(pathname))
             return true;
         return false;
     }
