@@ -30,7 +30,7 @@ public class PDFParser {
         InputStream inputStream = new FileInputStream(pathname);
         extractor.setPDF(inputStream);
         Element result = extractor.getContentAsNLM();   
-        PDFData pdf = new PDFData(getArticleTitleMetadata(result), getJournalNameMetadata(result), getPublicationYearMetadata(result), "../" + pathname);
+        PDFData pdf = new PDFData(getArticleTitleMetadata(result), getJournalNameMetadata(result), getPublicationYearMetadata(result), pathname);
         return pdf;
     }
 

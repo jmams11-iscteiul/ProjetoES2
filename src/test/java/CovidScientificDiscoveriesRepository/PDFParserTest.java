@@ -45,7 +45,7 @@ public class PDFParserTest {
         assertEquals("Pandemic versus Epidemic Influenza Mortality: A Pattern of Changing Age Distribution", testData.getArticleTitle());
         assertEquals("The Journal of Infectious Diseases", testData.getJournalName());
         assertEquals("1998", testData.getPublicationYear());
-        assertEquals("../" + existentPath, testData.getLocation());
+        assertEquals(existentPath, testData.getLocation());
     }
 
     public void tearDown() {
