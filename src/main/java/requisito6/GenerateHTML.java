@@ -56,8 +56,8 @@ public class GenerateHTML {
 				"\r\n" + 
 				"<table>\r\n" + 
 				"  <tr>\r\n" + 
-				"    <th>Versão anterior</th>\r\n" + 
-				"    <th>Versão atual</th>\r\n" + 
+				"    <th>Versao anterior</th>\r\n" + 
+				"    <th>Versao atual</th>\r\n" + 
 				"  </tr>\r\n" + 
 				"  <tr>\r\n" + 
 				"    <td>" + leftSideString
