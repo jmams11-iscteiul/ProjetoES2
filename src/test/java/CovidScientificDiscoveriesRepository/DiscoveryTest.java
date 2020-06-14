@@ -90,7 +90,7 @@ public class DiscoveryTest {
         assertEquals("Pandemic versus Epidemic Influenza Mortality: A Pattern of Changing Age Distribution", pdfData.getArticleTitle());
         assertEquals("The Journal of Infectious Diseases", pdfData.getJournalName());
         assertEquals("1998", pdfData.getPublicationYear());
-        assertEquals("../" + pdfRep.getName() + "/" + existingFiles[0], pdfData.getLocation());
+        assertEquals(pdfRep.getName() + "/" + existingFiles[0], pdfData.getLocation());
 
         // Appending the Data 
         try {
