@@ -36,8 +36,8 @@ public class testClass {
 		
 		
 		mt = new MailTool();
-		firefoxOptions.setHeadless(true);
-        firefoxOptions.setLogLevel(FirefoxDriverLogLevel.FATAL);
+//		firefoxOptions.setHeadless(true);
+//        firefoxOptions.setLogLevel(FirefoxDriverLogLevel.FATAL);
 		outputRecorder = new OutputRecorder();
 
 		driver = new FirefoxDriver(firefoxOptions);
@@ -62,23 +62,30 @@ public class testClass {
 	@Test
 	public void test() {
 //		System.out.println("1");
+		
+		for (int i = 0; i < jarry.size(); i++) {
+			JSONObject jo = (JSONObject) jarry.get(i);
+//			if (jo.get("modo").equals("Repo")) {
+//				testRepo((String)jo.get("nome"), (String)jo.get("link"));
+//			}
+			if (jo.get("modo").equals("WebPage")) {
+				testWebPage((String) jo.get("nome"), (String) jo.get("link"));
+			}
+			if (jo.get("modo").equals("Form")) {
+				testForm((String) jo.get("link"), (String) jo.get("linkTarget"), (JSONObject) jo.get("params"));
+			}
+
+//			System.out.println("1");
+		}
 		for (int i = 0; i < login.size(); i++) {
 			JSONObject jo = (JSONObject) login.get(i);
 			testLogin((String) jo.get("link"), (String) jo.get("username"), (String) jo.get("password"));
 		}
-		
 		for (int i = 0; i < jarry.size(); i++) {
 			JSONObject jo = (JSONObject) jarry.get(i);
 			if (jo.get("modo").equals("Repo")) {
-				testRepo((String)jo.get("nome"), (String)jo.get("link"));
+				testRepo((String) jo.get("nome"), (String) jo.get("link"));
 			}
-			if (jo.get("modo").equals("WebPage")) {
-				testWebPage((String)jo.get("nome"), (String)jo.get("link"));
-			}
-			if (jo.get("modo").equals("Form")) {
-				testForm((String)jo.get("link"), (String)jo.get("linkTarget"), (JSONObject)jo.get("params"));
-			}
-//			System.out.println("1");
 		}
 		outputRecorder.endLog();
 //		System.out.println("2");
@@ -89,7 +96,7 @@ public class testClass {
 		String username = (String)jb.get("username");
 		String password = (String)jb.get("password");
 		String to = (String)jb.get("to");
-		mt.sendEmail(username, to, username, password);
+//		mt.sendEmail(username, to, username, password);
 //		driver.get("http://google.com");
 //		
 	}
@@ -125,12 +132,16 @@ public class testClass {
 				}
 			}
 			elem.submit();
-			
-			outputRecorder.addToLog("Form", link, link, targetLink, targetLink.equals(driver.getCurrentUrl())?"UP":"DOWN");
+			try {
+				Thread.sleep(6000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			outputRecorder.addToLog("Form", link, targetLink, driver.getCurrentUrl() , targetLink.equals(driver.getCurrentUrl())?"UP":"DOWN");
 			if(!targetLink.equals(driver.getCurrentUrl())) mt.addToErrors("The form at" + link + " is down");
 			if (emailSens) {
 				try {
-					Thread.sleep(5000);
+					Thread.sleep(6000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -144,7 +155,7 @@ public class testClass {
 				if(!st) mt.addToErrors("The email functionality at " + link + " is down");
 			}
 		} catch (WebDriverException e) {
-			outputRecorder.addToLog("Form", link, link, targetLink, "DOWN");
+			outputRecorder.addToLog("Form", link, targetLink, link, "DOWN");
 			mt.addToErrors("The form at " + link + " is down");
 		}
 	}
@@ -158,7 +169,7 @@ public class testClass {
 		elem.sendKeys(pass);
 		elem.submit();
 		try {
-			Thread.sleep(500);
+			Thread.sleep(6000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
