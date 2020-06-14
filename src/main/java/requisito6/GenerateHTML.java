@@ -22,6 +22,7 @@ public class GenerateHTML {
 	public String printToString(String rightSideString, String leftSideString){
 		String str = "Content-type: text/html\n\n" +
 				"<head>\r\n" + 
+				"<title>Covid Evolution Diff</title>\r\n"+
 				"<style>\r\n" + 
 				"table {\r\n" + 
 				"  font-family: arial, sans-serif;\r\n" + 
