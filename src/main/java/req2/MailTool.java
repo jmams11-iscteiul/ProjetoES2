@@ -1,4 +1,4 @@
-package main.java;
+package req2;
 
 import java.util.Properties;
 

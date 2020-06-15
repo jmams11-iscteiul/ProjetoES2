@@ -1,4 +1,4 @@
-package main.java;
+package req2;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class OutputRecorder {
-	private static final String filename = "/var/www/html/requisito2.html";
+	private static final String filename = "requisito2.html";
 	private static FileWriter myWriter;
 	public OutputRecorder() {
 		try {

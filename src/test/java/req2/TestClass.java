@@ -1,5 +1,4 @@
-package test.java;
-
+package req2;
 
 import java.io.FileReader;
 
@@ -17,10 +16,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
-import main.java.MailTool;
-import main.java.OutputRecorder;
-
-public class testClass {
+public class TestClass {
 
 	// WebDriver instance
 	static WebDriver driver;
@@ -36,8 +32,8 @@ public class testClass {
 		
 		
 		mt = new MailTool();
-//		firefoxOptions.setHeadless(true);
-//        firefoxOptions.setLogLevel(FirefoxDriverLogLevel.FATAL);
+		firefoxOptions.setHeadless(true);
+        firefoxOptions.setLogLevel(FirefoxDriverLogLevel.FATAL);
 		outputRecorder = new OutputRecorder();
 
 		driver = new FirefoxDriver(firefoxOptions);
@@ -96,7 +92,7 @@ public class testClass {
 		String username = (String)jb.get("username");
 		String password = (String)jb.get("password");
 		String to = (String)jb.get("to");
-//		mt.sendEmail(username, to, username, password);
+		mt.sendEmail(username, to, username, password);
 //		driver.get("http://google.com");
 //		
 	}
@@ -184,7 +180,7 @@ public class testClass {
 			System.out.println(driver.getTitle().equals(nome));
 			String status = driver.getTitle().equals(nome) ? "UP" : "DOWN";
 			outputRecorder.addToLog("Repository", link, nome, driver.getTitle(), status);
-			mt.addToErrors("The repository \"" + nome + "\" at " + link + " is down");
+			if(status.equals("DOWN")) mt.addToErrors("The repository \"" + nome + "\" at " + link + " is down");
 		} catch (WebDriverException e) {
 			outputRecorder.addToLog("Repository", link, nome, "Missing", "DOWN");
 			mt.addToErrors("The repository \"" + nome + "\" at " + link + " is down");

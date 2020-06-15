@@ -1,4 +1,4 @@
-package main.java;
+package req2;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -29,7 +29,7 @@ public class JSONEncoder {
 		arr.add(addWebsite("Web Site Analytics", "http://localhost:80/wsa"));
 		arr.add(addWebsite("Covid Scientific Discoveries Repository", "http://localhost:80/csdr"));
 
-		arr.add(addWebsite("Página principal - Iscte – Instituto Universitário de Lisboa", "https://www.iscte-iul.pt/"));
+		arr.add(addWebsite("Pï¿½gina principal - Iscte ï¿½ Instituto Universitï¿½rio de Lisboa", "https://www.iscte-iul.pt/"));
 
 		
 		
