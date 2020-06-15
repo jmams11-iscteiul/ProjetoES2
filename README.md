@@ -14,8 +14,9 @@
 
 
 # Funcionalidades não implementadas:
-  
-  Requisito 5 - Tomás Fernandes
+
+**Requisito 5 - Tomás Fernandes**
+
     Não é possível utilizar o operador "AND" nas queries.
 
 
