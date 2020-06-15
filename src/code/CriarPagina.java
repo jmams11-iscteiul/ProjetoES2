@@ -17,6 +17,8 @@ public class CriarPagina {
 		CovidQuery cq = new CovidQuery();
 
 		System.out.println(cgi_lib.Header());
+		
+		System.out.println("<head><title>COVID Info - Query</title></head>");
 
 		System.out.println("<h1>Requisito 5: Queries</h1><br>");
 

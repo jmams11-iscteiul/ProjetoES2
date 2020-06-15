@@ -56,7 +56,7 @@ public class Hello {
 	 */
 	private static void processarForm()throws Exception{
 
-
+		System.out.println("<head><title>COVID Info - Query</title></head>");
 		//  Print the name/value pairs sent from the browser.
 		//System.out.println(cgi_lib.Variables(form_data));
 
