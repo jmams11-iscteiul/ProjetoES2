@@ -11,7 +11,3 @@
 # Funcionalidades não implementadas:
 
 
-
-**Requisito 2 (Júlia Monteiro) :**
-
-
