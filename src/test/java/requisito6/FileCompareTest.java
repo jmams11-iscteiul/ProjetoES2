@@ -1,4 +1,4 @@
-package testesrequisito6;
+package requisito6;
 
 
 import static org.junit.Assert.assertEquals;
@@ -10,8 +10,6 @@ import java.io.IOException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.Before;
 import org.junit.Test;
-
-import requisito6.FileCompare;
 
 public class FileCompareTest {
 	

@@ -1,4 +1,4 @@
-package testesrequisito6;
+package requisito6;
 
 import org.junit.Before;
 import org.junit.Test;

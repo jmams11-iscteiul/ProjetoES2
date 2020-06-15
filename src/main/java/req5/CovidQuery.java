@@ -46,7 +46,7 @@ public class CovidQuery {
 	/**
 	 * 
 	 * @return uma lista de nomes das regioes disponiveis no rdf (sem as que estao sem dados)
-	 * @throws Exception
+	 * @throws Exception envia uma excecao quando ocorre algo mau
 	 */
 	public ArrayList<String> obterRegioes() throws Exception {
 		downloadFicheiro();

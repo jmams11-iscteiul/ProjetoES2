@@ -373,7 +373,7 @@ public class Hello {
 
 	/**
 	 * Imprime no HTML o nome da regiao (antes do elemento a mostrar), se ainda nao tiver sido feito.
-	 * @param Regiao do elemento a mostrar
+	 * @param regiao Regiao do elemento a mostrar
 	 */
 	public static void mostraRegiao(Regiao regiao) {
 		if(regiao.foiApresentado)

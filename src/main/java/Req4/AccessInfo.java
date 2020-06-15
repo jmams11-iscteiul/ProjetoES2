@@ -46,7 +46,7 @@ public class AccessInfo {
 	/**
 	 * @return uma lista com a informacao de todos os ficheiros
 	 * @throws InvalidRemoteException quando tenta aceder ao repositorio
-	 * @throws TransportException
+	 * @throws TransportException quadno ocorre erro de transporte
 	 * @throws GitAPIException quando tenta aceder ao git
 	 * @throws IOException
 	 * clona o repositorio git

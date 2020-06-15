@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 
 /**
- * @
+ * 
  * Apresenta a pagina com a lista de regioes e o formulario para o utilizador realizar as queries.
- * @throws Exception
+ * 
  */
 public class CriarPagina {
 

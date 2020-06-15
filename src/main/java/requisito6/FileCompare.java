@@ -70,6 +70,8 @@ public class FileCompare {
 	private String diffVersion;
 	/**
 	 * Clones the git repository to a local file and sets the repository.
+	 * @throws IOException Exception thrown if the file could not be created
+	 * @throws GitAPIException Exception thrown when jgit fails
 	 */
 	public void createTempRepo() throws IOException, GitAPIException {
 		readConfig();
@@ -82,6 +84,7 @@ public class FileCompare {
 	}
 	/**
 	 * Gets the last two tags from the repository.
+	 * @throws GitAPIException Exception thrown when jgit fails
 	 */
 	public List<String> getLastTwoTags() throws GitAPIException {
 		List<Ref> list = repository.tagList().call();
