@@ -31,13 +31,13 @@ public class testClass {
 	private static OutputRecorder outputRecorder;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		System.setProperty("webdriver.gecko.driver", "geckodriver.exe"); // C:\\ISCTE\\Aulas\\DriversSelenium\\geckodriver.exe
+		System.setProperty("webdriver.gecko.driver", "/usr/lib/cgi-bin/requisito2/geckodriver"); // C:\\ISCTE\\Aulas\\DriversSelenium\\geckodriver.exe
 		FirefoxOptions firefoxOptions = new FirefoxOptions();
 		
 		
 		mt = new MailTool();
-//		firefoxOptions.setHeadless(true);
-//        firefoxOptions.setLogLevel(FirefoxDriverLogLevel.FATAL);
+		firefoxOptions.setHeadless(true);
+        firefoxOptions.setLogLevel(FirefoxDriverLogLevel.FATAL);
 		outputRecorder = new OutputRecorder();
 
 		driver = new FirefoxDriver(firefoxOptions);
@@ -96,7 +96,7 @@ public class testClass {
 		String username = (String)jb.get("username");
 		String password = (String)jb.get("password");
 		String to = (String)jb.get("to");
-//		mt.sendEmail(username, to, username, password);
+		mt.sendEmail(username, to, username, password);
 //		driver.get("http://google.com");
 //		
 	}
@@ -184,7 +184,7 @@ public class testClass {
 			System.out.println(driver.getTitle().equals(nome));
 			String status = driver.getTitle().equals(nome) ? "UP" : "DOWN";
 			outputRecorder.addToLog("Repository", link, nome, driver.getTitle(), status);
-			mt.addToErrors("The repository \"" + nome + "\" at " + link + " is down");
+			if(status.equals("DOWN")) mt.addToErrors("The repository \"" + nome + "\" at " + link + " is down");
 		} catch (WebDriverException e) {
 			outputRecorder.addToLog("Repository", link, nome, "Missing", "DOWN");
 			mt.addToErrors("The repository \"" + nome + "\" at " + link + " is down");
